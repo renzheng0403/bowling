@@ -21,18 +21,20 @@ int pinOfFrame(char *scoreLine, int *status)
                 pin += 10;
                 *status = SPARE;
             } else {
-                pin += pinOfNextThrow(scoreLine + 1);
+                pin += pinOfNextThrow(scoreLine + 1, status);
             }
             break;
         }
         default: { //第一次没有击全
+            //printf("pinOfFrame: first throw common, %c\n", *scoreLine);
             if (isdigit(*scoreLine)) {
                 if (*(scoreLine + 1) == '/') {
                     pin += 10;
                     *status = SPARE;
                 } else {
+                    //printf("pinOfFrame: second throw common, %c\n", *(scoreLine+1));
                     pin += *scoreLine - '0';
-                    pin += pinOfNextThrow(scoreLine + 1);
+                    pin += pinOfNextThrow(scoreLine + 1, status);
                 }
             } else {
                 printf("wrong 1\n");
@@ -47,16 +49,19 @@ int pinOfFrame(char *scoreLine, int *status)
 /*
  * 第二次击球，有击空，击中未补全，补全三种情况，计算击倒pin数
  */
-int pinOfNextThrow(char *scoreLine)
+int pinOfNextThrow(char *scoreLine, int *status)
 {
     int pin = 0;
+    //printf("pinOfNextThrow: second throw %c\n", *scoreLine);
     switch (*scoreLine) {
         case '-': { //第二次击空
+            *status = COMMON;
             break;
         }
         default: { //第二次没有补完
             if (isdigit(*scoreLine)) {
                 pin = *scoreLine - '0';
+                *status = COMMON;
             } else {
                 printf("wrong 2\n");
                 exit(1);
@@ -84,7 +89,7 @@ int pinOfBonusThrow(char *scoreLine)
                 if (isdigit(*scoreLine)) {
                     pin = *scoreLine - '0';
                 } else {
-                    printf("wrong 2\n");
+                    printf("wrong 3\n");
                     exit(1);
                 }
             }
@@ -100,6 +105,8 @@ int countScore(char *scoreLine)
 
     for (int i = 0; i < 10; ++i) {
         score += pinOfFrame(scoreLine, &status);
+        //printf("frame count:%d  frame status:%d  frame pins:%d\n", i, status, score);
+
         if (status == STRIKE) {
             scoreLine++;
             while (isspace(*scoreLine))

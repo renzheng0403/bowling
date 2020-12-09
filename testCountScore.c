@@ -7,13 +7,35 @@ void countAndPrint(char *scoreLine);
 
 int main()
 {
-    char scoreLine1[] = "X X X X X X X X X X X X";
-    char scoreLine2[] = "9- 9- 9- 9- 9- 9- 9- 9- 9- 9-";
-    char scoreLine3[] = "5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5";
 
-    countAndPrint(scoreLine1);
-    countAndPrint(scoreLine2);
-    countAndPrint(scoreLine3);
+    char *scoreLineArray[16] = {
+            "X X X X X X X X X X X X",
+            "9- 9- 9- 9- 9- 9- 9- 9- 9- 9-",
+            "5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5",
+            "X X X X X X X X X X X 1",
+            "X X X X X X X X X X X -",
+            "X X X X X X X X X X 11",
+            "X X X X X X X X X X 1/",
+            "X X X X X X X X X -/ X",
+            "X X X X X X X X X -/ -",
+            "X X X X X X X X X -/ 1",
+            "X X X X X X X X X 1/ X",
+            "X X X X X X X X X 11",
+            "X X X X X X X X X 1-",
+            "11 11 11 11 11 11 11 11 11 11",
+            "-- -- -- -- -- -- -- -- -- --",
+            "-/ -/ -/ -/ -/ -/ -/ -/ -/ -/ -"
+    };
+
+    for (int i = 0; i < 16; ++i) {
+        countAndPrint(scoreLineArray[i]);
+    }
+
+
+    /*
+    char *scoreLine = "11 11 11 11 11 11 11 11 11 11";
+    countAndPrint(scoreLine);
+     */
 
     return 0;
 }
@@ -21,7 +43,7 @@ int main()
 void countAndPrint(char *scoreLine)
 {
     int score = 0;
-    score = countScore(scoreLine);
     fputs(scoreLine, stdout);
-    printf("score is %d\n", score);
+    score = countScore(scoreLine);
+    printf(" | %3d\n", score);
 }

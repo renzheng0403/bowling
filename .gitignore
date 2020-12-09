@@ -5,3 +5,5 @@ Makefile
 bowling
 cmake_install.cmake
 testCountScore
+cmake-build-debug/
+build/
